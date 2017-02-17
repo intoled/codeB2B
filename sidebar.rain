@@ -1,0 +1,263 @@
+<div class="sidewrap">
+  
+{% if template != 'pages/textpage.rain' %}
+  
+  
+  {% if theme.menu_style == 'Verticaal' or (theme.menu_style == 'Horizontaal' and template != 'pages/index.rain') %}
+  {% if theme.sidebar_menu_style == 'style_1' %}
+  <ul class="side-cats">
+    {% for category in shop.categories %}
+    <li class="{% if category.url is active %}active{% endif %}"><a href="{{ category.url | url }}">{{ category.title }}</a>{% if category.subs %}<span class="more-cats"><span class="plus-min"></span></span>{% endif %}
+      {% if category.subs %}
+      <ul class="{% if category.url is active %}active{% endif %}">
+        {% for category in category.subs %}
+        <li class="{% if category.url is active %}active{% endif %}"><a href="{{ category.url | url }}">{{ category.title }}{% if theme.show_products_in_category %} ({{ category.count }}){% endif %}</a>{% if category.subs %}<span class="more-cats"><span class="plus-min"></span></span>{% endif %}
+          {% if category.subs %}
+          <ul class="{% if category.url is active %}active{% endif %}">
+            {% for category in category.subs %}
+            <li class="{% if category.url is active %}active{% endif %}"><a href="{{ category.url | url }}">{{ category.title }}{% if theme.show_products_in_category %} ({{ category.count }}){% endif %}</a></li>
+            {% endfor %}      
+          </ul>
+          {% endif %}
+        </li>
+        {% endfor %}      
+      </ul>
+      {% endif %}
+    </li>  
+    {% endfor %}
+    {% if shop.blogs and theme.show_blog_in_menu %}
+    <li class=""><a href="{{ 'blogs/blog' | url }}">{{ 'blog' | t }}</a></li>
+    {% endif %}
+    {% if theme.show_brands_in_menu and shop.brands %}
+    <li class=""><a href="{{ 'brands' | url }}">{{ 'Brands' | t }}</a><span class="more-cats"><span class="plus-min"></span></span>
+      <ul>
+        {% for category in shop.brands %}
+        <li class="{% if category.url is active %}active{% endif %}"><a href="{{ category.url | url }}">{{ category.title }}{% if theme.show_products_in_category %} ({{ category.count }}){% endif %}</a></li>
+        {% endfor %}
+      </ul>
+    </li>
+    {% endif %}
+    {% if theme.show_contact_in_menu %}
+    <li class=""><a href="{{ 'service' | url }}">{{ 'Contact' | t }}</a></li>
+    {% endif %}
+  </ul>
+  
+  {% elseif theme.sidebar_menu_style == 'style_2' %}
+  
+  <ul class="special-side">
+    {% for category in shop.categories %}
+    <li class="{% if category.subs %}with-subs{% endif %}"><a href="{{ category.url | url }}">{{ category.title }}</a>
+      {% if category.subs %}
+      <div class="sub-box">
+        <div class="title">{{ category.title }}</div>
+        <div class="row">
+          {% for category in category.subs %}
+          <div class="col-md-3">
+            <div class="sub-title"><a href="{{ category.url | url }}">{{ category.title }}</a></div>
+            {% if category.subs %}
+            <ul>
+              {% for category in category.subs | limit(7) %}
+              <li><a href="{{ category.url | url }}">{{ category.title }}</a></li>
+              {% endfor %}
+              {% if category.subs | length > 7 %}
+              <li><a href="{{ category.url | url }}"><strong>{{ 'View all' | t }}</strong></a></li>
+              {% endif %}
+            </ul>
+            {% endif %}
+          </div>
+          {% if loop.index is divisibleby(4) %}
+          <div class="clearfix"></div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </li>
+    {% endfor %}
+    {% if shop.blogs and theme.show_blog_in_menu %}
+    <li class=""><a href="{{ 'blogs/blog' | url }}">{{ 'blog' | t }}</a></li>
+    {% endif %}
+  </ul>
+  
+  {% endif %}
+  {% endif %}
+  
+  
+{% elseif template == 'pages/textpage.rain' %}
+<ul class="side-cats">
+  <li class="active">
+    <a href="{{ 'service' | url }}">{{ 'Customer service' | t }}</a><span class="more-cats"><span class="plus-min"></span></span>
+    <ul class="active">
+      {% for link in shop.links.service %}
+        <li{% if link.url is active %} class="active"{% endif %}><a href="{{ link.url | url }}" title="{{ link.title }}" {% if link.new_window %}target="_blank"{% endif %}>{{ link.title }}</a>
+      {% endfor %}
+    </ul>
+  </li>
+</ul> 
+{% endif %}
+          
+          {% if (theme.kiyoh_widget or theme.feedback_company_widget) and (theme.review_widget_place == 'sidebar' or theme.review_widget_place == 'both') and theme.sidebar_reviews_position == 'top' %}
+          <div class="hidden-sm hidden-xs side-reviews">
+            <h3 class="side-title{% if theme.round_corners %} round-corners{% endif %}">{{ 'Reviews' | t }}</h3>
+            {% if theme.kiyoh_widget %}
+            <iframe scrolling="no" src="https://www.kiyoh.nl/widget.php?company={{ theme.kiyoh_widget }}&border=0" width="100%" height="175" border="0" frameborder="0"></iframe>
+            {% endif %}
+            {% if theme.feedback_company_widget %}
+            <div id="tfcwidgetcontainer{{ theme.feedback_company_widget }}" class="fbcompany feedback-company"></div>
+            {% endif %}
+            <div class="clearfix"></div>
+          </div>
+          {% endif %}
+          
+          
+{% if template == 'pages/collection.rain' %}
+  <div class="sort">
+  <form action="{{ collection.internal.url | url }}" method="get" id="filter_form_side">
+    <input type="hidden" name="mode" value="{{ collection.filters.mode }}" id="filter_form_mode" />
+    <input type="hidden" name="limit" value="{{ collection.filters.limit }}" id="filter_form_limit" />
+    <input type="hidden" name="sort" value="{{ collection.filters.sort }}" id="filter_form_sort" />
+    <input type="hidden" name="max" value="{{ collection.filters.max }}" id="filter_form_max" />
+    <input type="hidden" name="min" value="{{ collection.filters.min }}" id="filter_form_min" />
+    
+    {% if theme.show_price_slider %}
+    <div class="filter-wrap">
+      <div class="filter-title active" data-box="filter_box_price">{{ 'Price' | t }}{#<span class="arrow"><i class="fa fa-caret-right" aria-hidden="true"></i></span>#}</div>
+      <div class="filter-box filter_box_price">
+        <div class="price-filter">
+          <div class="sidebar-filter-slider">
+            <div id="collection-filter-price"></div>
+          </div>
+          <div class="price-filter-range clear">
+            <div class="min">{{ 'Van' | t }} <span>{{ shop.currency2.symbol }}{{ collection.filters.min }}</span></div>
+            <div class="max">{{ 'Tot' | t }} <span>{{ shop.currency2.symbol }}{{ collection.filters.max }}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    
+    {% if theme.filters == 'vertical' %}
+      {% if collection.brands and theme.show_brands_filter %}
+      <div class="filter-wrap">
+        <div class="filter-title active" data-box="filter_box_brands">{{ 'Brands' | t }}</div>
+        <div class="filter-box filter_box_brands">
+          {% for value in collection.brands %}
+          <div class="ui checkbox">
+            <input id="filter_{{ value.id }}" type="checkbox" name="brand" value="{{ value.id }}" {% if value.id == collection.brand2.id %} checked="checked"{% endif %} /> 
+            <label for="filter_{{ value.id }}">{{ value.title }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      
+    {% for filter in collection.filters.custom %}
+    <div class="filter-wrap">
+    <div class="filter-title active" data-box="filter_box_{{ filter.id }}">{{ filter.title }}<span class="more-cats"><span class="plus-min"></span></span></div>
+    <div class="filter-box filter_box_{{ filter.id }}">
+    {% for value in filter.values %}
+      <div class="ui checkbox">
+        <input id="filter_{{ value.id }}" type="checkbox" name="filter[]" value="{{ value.id }}" {% if value.active %} checked="checked"{% endif %} /> 
+        <label for="filter_{{ value.id }}">{{ value.title }}{% if not value.active and value.has_count %} <span>({{ value.count }})</span>{% endif %}</label>
+      </div>
+    {% endfor %}
+    </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+  
+  </form>
+  </div>
+{% endif %}
+    
+    {% if theme.show_usp_sidebar %}
+<div class="side-usp{% if theme.round_corners %} round-corners{% endif %} hidden-sm hidden-xs">
+  <h3 class="side-title">{{ 'usp sidebar title' | t }}</h3>
+  <ul>
+    <li>
+      <div class="icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+      <div class="text">
+        {% if theme.sidebar_usp_1_url %}<a href="{{ theme.sidebar_usp_1_url | url }}">{% endif %}
+        {{ theme.sidebar_usp_1 | t | raw }}
+        {% if theme.sidebar_usp_1_url %}</a>{% endif %}
+      </div>
+    </li>
+     <li>
+      <div class="icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+      <div class="text">
+        {% if theme.sidebar_usp_2_url %}<a href="{{ theme.sidebar_usp_2_url | url }}">{% endif %}
+        {{ theme.sidebar_usp_2 | t | raw }}
+        {% if theme.sidebar_usp_2_url %}</a>{% endif %}
+        </div>
+    </li>
+     <li>
+      <div class="icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+      <div class="text">
+        {% if theme.sidebar_usp_3_url %}<a href="{{ theme.sidebar_usp_3_url | url }}">{% endif %}
+        {{ theme.sidebar_usp_3 | t | raw }}
+        {% if theme.sidebar_usp_3_url %}</a>{% endif %}
+        </div>
+    </li>
+     <li>
+      <div class="icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+      <div class="text">
+        {% if theme.sidebar_usp_4_url %}<a href="{{ theme.sidebar_usp_4_url | url }}">{% endif %}
+        {{ theme.sidebar_usp_4 | t | raw }}
+        {% if theme.sidebar_usp_4_url %}</a>{% endif %}
+        </div>
+    </li>
+  </ul>
+</div>
+{% endif %}
+
+{% if (page.recent | length > 0) and theme.show_recent_sidebar %}
+<div class="recently-watched hidden-sm hidden-xs">
+  <h3 class="side-title{% if theme.round_corners %} round-corners{% endif %}">{{ 'Recently viewed' | t }}</h3>
+  
+  <table>
+    {% for product in page.recent %}
+    <tr class="product">
+      <td><img src="{{ product.image | url_image('100x100x2') }}" width="70" alt="{{ product.title }}"></td>
+      <td>
+        <div class="info">
+          <div class="title">{{ product.title }}</div>
+          <a href="{{ product.url | url }}">{{ 'View product' | t }}{% include 'snippets/play-icon.rain' %}</a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+</div>
+{% endif %}
+          {% if template != 'pages/product.rain' %}
+          {% if (shop.tags | length > 0) and theme.show_tags_sidebar %}
+          <div class="tags-box hidden-sm hidden-xs">
+            <h3 class="side-title{% if theme.round_corners %} round-corners{% endif %}">{{ 'Tags' | t }}</h3>
+            <ul class="tags">
+              {% for tag in shop.tags %}
+              <li class="tag"><a href="{{ tag.url | url }}">{{ tag.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% endif %}
+          
+          {% if (theme.kiyoh_widget or theme.feedback_company_widget) and (theme.review_widget_place == 'sidebar' or theme.review_widget_place == 'both') and theme.sidebar_reviews_position == 'bottom' %}
+          <div class="hidden-sm hidden-xs side-reviews">
+            <h3 class="side-title{% if theme.round_corners %} round-corners{% endif %}">{{ 'Reviews' | t }}</h3>
+            {% if theme.kiyoh_widget %}
+            <iframe scrolling="no" src="https://www.kiyoh.nl/widget.php?company={{ theme.kiyoh_widget }}&border=0" width="100%" height="175" border="0" frameborder="0"></iframe>
+            {% endif %}
+            {% if theme.feedback_company_widget %}
+            <div id="tfcwidgetcontainer{{ theme.feedback_company_widget }}" class="feedback-company"></div>
+            <script type="text/javascript" src="https://beoordelingen.feedbackcompany.nl/widget/{{ theme.feedback_company_widget }}.js" async="async"></script>
+            {% endif %}
+            
+            <div class="clearfix"></div>
+          </div>
+          {% endif %}
+          
+          
+          
+      </div>

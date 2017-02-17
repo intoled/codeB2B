@@ -1,0 +1,362 @@
+{% set pagination = collection | paginate %}
+
+<div class="page-top hidden-xs row">
+  <div class="col-sm-12 col-md-12 hidden-xs breadcrumbs">
+    <a href="{{ '' | url }}" title="{{ 'Home' | t }}">{{ 'Home' | t }}</a>
+    
+    {% for breadcrumb in page.breadcrumbs %}
+    <span class="bread-divider"><i class="fa fa-caret-right" aria-hidden="true"></i></span><a{% if loop.last %} class="last"{% endif %} href="{{ breadcrumb.url | url }}">{{ breadcrumb.title }}</a>
+    {% endfor %}
+  </div>  
+  {#
+  <div class="back-box col-sm-6">
+    <a class="back-to" href="{% if page.back %}{{ page.back.url | url }}{% else %}{{ '' | url }}{% endif %}"><span class="hidden-xs">{{ 'Terug naar overzicht' | t }}</span><span class="hidden-sm hidden-md hidden-lg">{{ 'Back' | t }}</span></a>
+  </div>
+    #}
+  
+</div>
+
+
+<div class="row">
+  <div class="col-md-3 sidebar">
+    {% include 'snippets/sidebar.rain' %}
+  </div>
+  <div class="col-sm-12 col-md-9">
+   
+    <div class="collection-top">
+      {% if not collection.content or theme.collection_content == 'bottom' %}
+      <h1>{{ collection.title }}</h1>
+      <div class="col-description">{{ collection.description }}</div>
+      {% endif %}
+      
+      {% if collection.content and theme.collection_content == 'top' %}
+      <div class="page-content row">
+        {% if theme.show_collection_banner %}
+        <div class="col-sm-4">
+          <img src="{{ collection.image | url_image('500x500x1') }}" width="100%">
+        </div>
+        {% endif %}
+        <div class="{% if theme.show_collection_banner %}col-sm-8{% else %}col-md-12{% endif %}">
+          <div class="textpage-top">
+            <h1>{{ collection.title }}</h1>
+            <div class="col-description">{{ collection.description }}</div>
+          </div>
+          <div class="content-wrap{% if not theme.show_read_more %} active{% endif %}">
+            {{ collection.content | raw }}
+            <div class="gradient{% if not theme.show_read_more %} active{% endif %}"></div>
+          </div>
+          {% if theme.show_read_more %}<a class="read-more" href="javascript:;"><i class="fa fa-plus"></i> {{ 'Read more' | t }}</a>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+      
+      {% if theme.filters == 'horizontal' %}
+      <div class="custom-top-filters hidden-sm hidden-xs">
+        <form action="{{ collection.internal.url | url }}" method="get" id="filter_form_side">
+          <input type="hidden" name="mode" value="{{ collection.filters.mode }}" id="filter_form_mode_hor" />
+          <input type="hidden" name="limit" value="{{ collection.filters.limit }}" id="filter_form_limit_hor" />
+          <input type="hidden" name="sort" value="{{ collection.filters.sort }}" id="filter_form_sort_hor" />
+          <input type="hidden" name="max" value="{{ collection.filters.max }}" id="filter_form_max_hor" />
+          <input type="hidden" name="min" value="{{ collection.filters.min }}" id="filter_form_min_hor" />
+          
+          <label class="hidden-xs hidden-sm">{{ 'Filter' | t }}:</label>
+          {% if collection.brands and theme.show_brands_filter %}
+          <div class="filter-dropdown">
+            <div class="dropdown-title{% if theme.round_corners %} round-corners{% endif %}">{{ 'Brands' | t }}<span class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div>
+            <div class="filter-dropdown-box">
+              {% for value in collection.brands %}
+              <div class="ui checkbox">
+                <input id="filter_{{ value.id }}" type="checkbox" name="brand" value="{{ value.id }}" {% if value.id == collection.brand2.id %} checked="checked"{% endif %} /> 
+                <label for="filter_{{ value.id }}">{{ value.title }}</label>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          
+      
+          {% for filter in collection.filters.custom %}
+           <div class="filter-dropdown">
+            <div class="dropdown-title{% if theme.round_corners %} round-corners{% endif %}">{{ filter.title }}<span class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div>
+            <div class="filter-dropdown-box">
+              {% for value in filter.values %}
+              <div class="ui checkbox">
+                <input id="filter_{{ value.id }}" type="checkbox" name="filter[]" value="{{ value.id }}" {% if value.active %} checked="checked"{% endif %} /> 
+                <label for="filter_{{ value.id }}">{{ value.title }}{% if not value.active and value.has_count %} <span>({{ value.count }})</span>{% endif %}</label>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+       
+          
+        </form>
+      </div>
+      {% endif %}
+      
+      
+      <div class="top-filters">
+        <form action="{{ collection.internal.url | url }}" method="get" id="filter_form">
+          {#<input type="hidden" name="mode" value="{{ collection.filters.mode }}" id="filter_form_mode" />#}
+          {#<input type="hidden" name="limit" value="{{ collection.filters.limit }}" id="filter_form_limit" />#}
+          {#<input type="hidden" name="sort" value="{{ collection.filters.sort }}" id="filter_form_sort" />#}
+          <input type="hidden" name="mode" value="{{ collection.filters.mode }}" id="filter_form_mode_top" />
+          <input type="hidden" name="max" value="{{ collection.filters.max }}" id="filter_form_max_top" />
+          <input type="hidden" name="min" value="{{ collection.filters.min }}" id="filter_form_min_top" />
+          
+          {% if collection.filters.custom %}
+          <a class="filter-btn open-filters hidden-md hidden-lg">
+            <span class="text">{{ 'Filter' | t }}</span>
+            <span class="icon"><i class="fa fa-filter" aria-hidden="true"></i></span>
+          </a>
+          {% endif %}
+          
+          {#<label for="sortselect" class="hidden-xs hidden-sm">{{ 'Sort by' | t }}:</label>#}
+          <select class="{% if theme.round_corners %}round-corners{% endif %}" id="sortselect" name="sort" onchange="$('#formSortModeLimit').submit();">
+            {% for sort in collection.sorts %}
+            <option value="{{ sort.id }}"{% if collection.filters.sort == sort.id %} selected="selected"{% endif %}>{{ sort.title }}</option>
+            {% endfor %}
+          </select>    
+          
+          
+              {% if collection.pages > 1 %}
+              <ul class="top-pager hidden-sm hidden-xs">
+              <li class="prev{% if not pagination.previous %} disabled{% endif %}"><a class="{% if theme.round_corners %}round-corners{% endif %}" href="{{ pagination.previous.url | url }}" title="{{ 'Previous page' | t }}"><i class="fa fa-caret-left" aria-hidden="true"></i></a></li>
+              {% for part in pagination.parts %}
+              {% if part.url %} 
+              <li class="number{% if part.active %} active{% endif %}"><a class="{% if theme.round_corners %}round-corners{% endif %}" href="{{ part.url | url }}">{{ part.title }}</a></li>
+              {% endif %}
+              {% endfor %}
+              <li class="next{% if not pagination.next %} disabled{% endif %}"><a class="{% if theme.round_corners %}round-corners{% endif %}" href="{{ pagination.next.url | url }}" title="{{ 'Next page' | t }}"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>
+              </ul>
+              {% endif %}
+          
+          {% if theme.show_grid_list_option %}
+          <ul class="modes hidden-xs">
+            <li><a class="{% if collection.mode2.id == 'list' %}active{% endif %}" href="{{ 'list' | collection_url('mode') | url }}"><i class="fa fa-th-list" aria-hidden="true"></i></a></li>
+            <li><a class="{% if collection.mode2.id == 'grid' %}active{% endif %}" href="{{ 'grid' | collection_url('mode') | url }}"><i class="fa fa-th" aria-hidden="true"></i></a></li>
+          </ul>
+          {% endif %}
+          
+          <span class="page-info hidden-xs">
+            <div class="plain-text hidden-xs hidden-sm hidden-md">{{ collection.items_from }} - {{ collection.items_to }} {{ 'Van' | t | lower }} {{ collection.count }}</div>
+            <label for="fad">{{ 'Show' | t }}:</label>
+            <select class="{% if theme.round_corners %}round-corners{% endif %}" id="fad" name="limit" onchange="$('#filter_form').submit();">
+              {% for i in [4,8,12,16,20,24] %}
+              <option value="{{ i }}"{% if collection.filters.limit == i %} selected="selected"{% endif %}>{{ i }}</option>
+              {% endfor %}
+            </select>
+          </span>
+              
+              
+              <div class="clearfix"></div>
+         
+          
+                 {% if collection.internal.filters.custom %}
+                 <div class="active-filters">
+                  <label>{{ 'Active filters' | t }}:</label>
+                   
+                   <ul>
+                     {% for filter in collection.filters.custom %}
+                     {% for value in filter.values %}
+                     {% if value.active %}
+                     <li class="active-filter">
+                       <input id="filter_{{ value.id }}" type="checkbox" name="filter[]" value="{{ value.id }}" {% if value.active %} checked="checked"{% endif %} />
+                       <label for="filter_{{ value.id }}">{{ value.title }}<span class="icon"><i class="fa fa-times" aria-hidden="true"></i></span></label>
+                     </li>
+                     {% endif %}
+                     {% endfor %}
+                     {% endfor %}
+                   </ul>
+                   <a class="remove-filters" href="{{ shop.canonical }}?mode={{ collection.mode2.id }}">{{ 'Clear all' | t }} {{ 'Filters' | t | lower }}</a>
+                 </div>  
+                 {% endif %}
+                 
+        </form>
+      </div>
+    </div>
+ 
+    <div class="mobile-filters">
+      <form action="{{ collection.internal.url | url }}" method="get" id="filter_form_side_mob">
+        <input type="hidden" name="mode" value="{{ collection.filters.mode }}" id="filter_form_mode_mob" />
+        <input type="hidden" name="limit" value="{{ collection.filters.limit }}" id="filter_form_limit_mob" />
+        <input type="hidden" name="sort" value="{{ collection.filters.sort }}" id="filter_form_sort_mob" />
+        <input type="hidden" name="max" value="{{ collection.filters.max }}" id="filter_form_max_mob" />
+        <input type="hidden" name="min" value="{{ collection.filters.min }}" id="filter_form_min_mob" />
+        
+        <div class="row">
+        {% if collection.brands and theme.show_brands_filter %}
+        <div class="filter-wrap col-xs-6 col-sm-20">
+          <div class="filter-title active" data-box="filter_box_brands">{{ 'Brands' | t }}</div>
+          <div class="filter-box filter_box_brands">
+            {% for value in collection.brands %}
+            <div class="ui checkbox">
+              <input id="filter_{{ value.id }}_mob" type="checkbox" name="brand" value="{{ value.id }}" {% if value.id == collection.brand2.id %} checked="checked"{% endif %} /> 
+              <label for="filter_{{ value.id }}">{{ value.title }}</label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        
+        {% for filter in collection.filters.custom %}
+        <div class="filter-wrap col-xs-6 col-sm-20">
+          <div class="filter-title active" data-box="filter_box_{{ filter.id }}">{{ filter.title }}<span class="more-cats"><span class="plus-min"></span></span></div>
+          <div class="filter-box filter_box_{{ filter.id }}">
+            {% for value in filter.values %}
+            <div class="ui checkbox">
+              <input id="filter_{{ value.id }}_mob" type="checkbox" name="filter[]" value="{{ value.id }}" {% if value.active %} checked="checked"{% endif %} /> 
+              <label for="filter_{{ value.id }}">{{ value.title }}{% if not value.active and value.has_count %} <span>({{ value.count }})</span>{% endif %}</label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+        
+      </form>
+    </div>    
+
+    <div class="row products">
+    {% if collection.mode == 'list' and theme.one_button_to_add_all %}<div class="col-xs-12 text-right"><a class="all-in-cart btn" href="javascript:;">{{ 'All in cart' | t }}</a></div>{% endif %}
+    {% for product in collection.products %}
+    {% if product.id != 38963612 %}
+    {% include 'snippets/products.rain' %}
+    {% endif %}
+    {% endfor %} 
+    {% if not collection.products %}
+    <div class="no-products-found col-xs-12">{{ 'No products found' | t }}...</div>
+    {% endif %}  
+      
+      {% if shop.settings.legal.mode == 'strict' %}
+      <div class="{% if collection.products %}strict-shipping{% endif %} col-xs-12 text-right">
+        <small class="shipping-cost collection">
+          * 
+          {% if shop.b2b %}
+          {{ 'Excl. VAT' | t }}
+          {% else %}
+          {{ 'Incl. VAT' | t }}
+          {% endif %} 
+          {{ 'Excl. $1' | t('<a href="' ~ 'service/shipping-returns' | url ~ '" target="_blank">' ~ 'Shipping costs' | t ~ '</a>') | raw }}
+        </small>
+      </div>
+      {% endif %}
+      
+    </div>
+                     
+    <div class="top-filters bottom">
+      <form action="{{ collection.internal.url | url }}" method="get" id="filter_form_bottom">
+        {#<input type="hidden" name="mode" value="{{ collection.filters.mode }}" id="filter_form_mode" />#}
+        {#<input type="hidden" name="limit" value="{{ collection.filters.limit }}" id="filter_form_limit" />#}
+        {#<input type="hidden" name="sort" value="{{ collection.filters.sort }}" id="filter_form_sort" />#}
+        <input type="hidden" name="max" value="{{ collection.filters.max }}" id="filter_form_max_bot" />
+        <input type="hidden" name="min" value="{{ collection.filters.min }}" id="filter_form_min_bot" />
+        
+        <span class="hidden-xs hidden-sm">
+          {#<label for="sortselect" class="hidden-xs hidden-sm">{{ 'Sort by' | t }}:</label>#}
+          <select class="{% if theme.round_corners %}round-corners{% endif %}" id="sortselect" name="sort" onchange="$('#formSortModeLimit').submit();">
+            {% for sort in collection.sorts %}
+            <option value="{{ sort.id }}"{% if collection.filters.sort == sort.id %} selected="selected"{% endif %}>{{ sort.title }}</option>
+            {% endfor %}
+          </select>    
+        </span>
+        
+        
+            {% if collection.pages > 1 %}
+            <ul class="top-pager bottom {% if theme.show_grid_list_option %} sm-left{% endif %}">
+            <li class="prev{% if not pagination.previous %} disabled{% endif %}"><a class="{% if theme.round_corners %}round-corners{% endif %}" href="{{ pagination.previous.url | url }}" title="{{ 'Previous page' | t }}"><i class="fa fa-caret-left" aria-hidden="true"></i></a></li>
+            {% for part in pagination.parts %}
+            {% if part.url %} 
+            <li class="number{% if part.active %} active{% endif %}"><a class="{% if theme.round_corners %}round-corners{% endif %}" href="{{ part.url | url }}">{{ part.title }}</a></li>
+            {% endif %}
+            {% endfor %}
+            <li class="next{% if not pagination.previous %} disabled{% endif %}"><a class="{% if theme.round_corners %}round-corners{% endif %}" href="{{ pagination.next.url | url }}" title="{{ 'Next page' | t }}"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>
+            </ul>
+            {% endif %}
+        
+            {% if theme.show_grid_list_option %}
+        <ul class="modes hidden-xs">
+          <li><a class="{% if collection.mode2.id == 'list' %}active{% endif %}" href="{{ 'list' | collection_url('mode') | url }}"><i class="fa fa-th-list" aria-hidden="true"></i></a></li>
+          <li><a class="{% if collection.mode2.id == 'grid' %}active{% endif %}" href="{{ 'grid' | collection_url('mode') | url }}"><i class="fa fa-th" aria-hidden="true"></i></a></li>
+        </ul>
+        {% endif %}    
+        
+        <span class="page-info hidden-xs hidden-sm">
+          <div class="plain-text hidden-xs hidden-sm hidden-md">{{ collection.items_from }} - {{ collection.items_to }} {{ 'Van' | t | lower }} {{ collection.count }}</div>
+          <label for="fad">Producten per pagina:</label>
+          <select class="{% if theme.round_corners %}round-corners{% endif %}" id="fad" name="limit" onchange="$('#filter_form').submit();">
+            {% for i in [4,8,12,16,20,24] %}
+            <option value="{{ i }}"{% if collection.filters.limit == i %} selected="selected"{% endif %}>{{ i }}</option>
+            {% endfor %}
+          </select>
+        </span>  
+          
+
+            
+            <div class="clearfix"></div>
+      </form>
+    </div>
+    
+    {% if collection.content and theme.collection_content == 'bottom' %}
+    <div class="page-content row">
+      {% if theme.show_collection_banner %}
+      <div class="col-sm-4">
+        <img src="{{ collection.image | url_image('500x500x1') }}" width="100%">
+      </div>
+      {% endif %}
+      <div class="{% if theme.show_collection_banner %}col-sm-8{% else %}col-md-12{% endif %}">
+        <div class="textpage-top">
+          <h2>{{ collection.title }}</h2>
+        </div>
+        <div class="content-wrap{% if not theme.show_read_more %} active{% endif %}">
+          {{ collection.content | raw }}
+          <div class="gradient{% if not theme.show_read_more %} active{% endif %}"></div>
+        </div>
+       {% if theme.show_read_more %}<a class="read-more" href="javascript:;"><i class="fa fa-plus"></i> {{ 'Read more' | t }}</a>{% endif %}
+      </div>
+    </div>
+    {% endif %}
+                     
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+  $.fn.toggleHtml = function(t1, t2){
+    if (this.html() == t1) this.html(t2);
+    else                   this.html(t1);
+    return this;
+  };
+
+  $(function(){
+    
+    $('a.read-more').on('click', function(){
+      $('.content-wrap, .content-wrap .gradient').toggleClass('active');
+      $(this).toggleHtml("<i class=\"fa fa-minus\"></i> {{ 'Read less' | t }}", "<i class=\"fa fa-plus\"></i> {{ 'Read more' | t }}");
+    }); 
+    
+    $('#filter_form input, #filter_form select, #filter_form_side input, #filter_form_side select, #filter_form_bottom input, #filter_form_bottom select').change(function(){
+      $(this).closest('form').submit();
+    });
+    
+    $("#collection-filter-price").slider({
+      range: true,
+      min: {{ collection.price_min }},
+      max: {{ collection.price_max }},
+      values: [{{ collection.filters.min }}, {{ collection.filters.max }}],
+      step: 1,
+      slide: function( event, ui){
+    $('.sidebar-filter-range .min span').html(ui.values[0]);
+    $('.sidebar-filter-range .max span').html(ui.values[1]);
+    
+    $('#filter_form_min').val(ui.values[0]);
+    $('#filter_form_max').val(ui.values[1]);
+  },
+    stop: function(event, ui){
+    $('#filter_form_side').submit();
+  }
+    });
+  });
+</script>

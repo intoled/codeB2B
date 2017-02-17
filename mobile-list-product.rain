@@ -30,6 +30,7 @@
       <div class="description body-font-size">{{ product.description | limit(100) }}{% if product.description | length > 100 %}...{% endif %}</div>
       
       <div class="order visible-xs">
+
         
         {% if not page.account %}
           <div class="price">
@@ -85,7 +86,7 @@
       {#<div class="variants-btn hidden-xs"><a class="open-variants" href="javascript:;">{{ 'Variants' | t }}</a></div>#}
       
       <div class="order hidden-xs">
-        
+      
         {% if not page.account %}
           <div class="price">
             <a style="color: #ff9f00;" href="{{ 'account' | url }}">{{ 'PriceLogin' | t }}</a>

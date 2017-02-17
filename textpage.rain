@@ -1,0 +1,33 @@
+<div class="page-top hidden-xs row">
+  <div class="col-sm-12 hidden-xs breadcrumbs">
+    <a href="{{ '' | url }}" title="{{ 'Home' | t }}">{{ 'Home' | t }}</a>
+    
+    {% for breadcrumb in page.breadcrumbs %}
+    <span class="bread-divider"><i class="fa fa-caret-right" aria-hidden="true"></i></span><a{% if loop.last %} class="last"{% endif %} href="{{ breadcrumb.url | url }}">{{ breadcrumb.title }}</a>
+    {% endfor %}
+  </div>  
+  {#
+  <div class="back-box col-sm-6">
+    <a class="back-to" href="{% if page.back %}{{ page.back.url | url }}{% else %}{{ '' | url }}{% endif %}"><span class="hidden-xs">{{ 'Terug naar overzicht' | t }}</span><span class="hidden-sm hidden-md hidden-lg">{{ 'Back' | t }}</span></a>
+  </div>
+    #}
+  
+</div>
+
+<div class="row">
+  <div class="col-md-3 sidebar">
+    {% include 'snippets/sidebar.rain' %}
+  </div>  
+  <div class="col-sm-12 col-md-9">
+   
+    <div class="textpage-top">
+      <h1>{{ textpage.title }}</h1>
+    </div>
+    
+    <div class="row textpage">
+      <div class="col-xs-12">
+        {{ textpage.content | raw }}
+      </div>
+    </div>
+  </div> 
+</div>

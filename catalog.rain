@@ -1,0 +1,100 @@
+<div class="page-top row">
+  <div class="col-sm-6 col-md-6 breadcrumbs">
+    <a href="{{ '' | url }}" title="{{ 'Home' | t }}">{{ 'Home' | t }}</a>
+    
+    {% for breadcrumb in page.breadcrumbs %}
+    <span class="bread-divider"><i class="fa fa-caret-right" aria-hidden="true"></i></span><a{% if loop.last %} class="last"{% endif %} href="{{ breadcrumb.url | url }}">{{ breadcrumb.title }}</a>
+    {% endfor %}
+  </div>  
+  
+  <div class="back-box hidden-xs col-sm-6">
+    <a class="back-to" href="{% if page.back %}{{ page.back.url | url }}{% else %}{{ '' | url }}{% endif %}">{{ 'Terug naar overzicht' | t }}</a>
+  </div>
+  
+</div>
+
+<div class="row">
+  <div class="col-md-3 sidebar">
+    {% include 'snippets/sidebar.rain' %}
+  </div>  
+  <div class="col-sm-12 col-md-9">
+   
+    <div class="collection-top">      
+      {% if not catalog.content or theme.collection_content == 'bottom' %}<h1>{{ catalog.title }}</h1>{% endif %}
+      
+      {% if catalog.content and theme.collection_content == 'top' %}
+      <div class="page-content row">
+        {% if theme.show_collection_banner %}
+        <div class="col-sm-4">
+          <img src="{{ catalog.image | url_image('500x500x1') }}" width="100%">
+        </div>
+        {% endif %}
+        <div class="{% if theme.show_collection_banner %}col-sm-8{% else %}col-md-12{% endif %}">
+          <div class="textpage-top">
+            <h1>{{ catalog.title }}</h1>
+          </div>
+          <div class="content-wrap{% if not theme.show_read_more %} active{% endif %}">
+            {{ catalog.content | raw }}
+            <div class="gradient{% if not theme.show_read_more %} active{% endif %}"></div>
+          </div>
+          {% if theme.show_read_more %}<a class="read-more" href="javascript:;"><i class="fa fa-plus"></i> {{ 'Read more' | t }}</a>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+      
+    </div>
+    
+    <div class="row categories">
+      {% for category in catalog.categories %}
+        {% include 'snippets/categories.rain' %}
+      {% endfor %} 
+      {% if not catalog.categories %}
+        <div class="no-products-found col-xs-12">{{ 'No categories found' | t }}...</div>
+      {% endif %}  
+    </div>
+    
+    {% if catalog.content and theme.collection_content == 'bottom' %}
+    <div class="page-content row">
+      {% if theme.show_collection_banner %}
+      <div class="col-sm-4">
+        <img src="{{ catalog.image | url_image('500x500x1') }}" width="100%">
+      </div>
+      {% endif %}
+      <div class="{% if theme.show_collection_banner %}col-sm-8{% else %}col-md-12{% endif %}">
+        <div class="textpage-top">
+          <h1>{{ catalog.title }}</h1>
+        </div>
+        <div class="content-wrap{% if not theme.show_read_more %} active{% endif %}">
+          {{ catalog.content | raw }}
+          <div class="gradient{% if not theme.show_read_more %} active{% endif %}"></div>
+        </div>
+        {% if theme.show_read_more %}<a class="read-more" href="javascript:;"><i class="fa fa-plus"></i> {{ 'Read more' | t }}</a>{% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+  </div> 
+
+     
+</div>
+    
+    <script type="text/javascript">
+      $.fn.toggleHtml = function(t1, t2){
+        if (this.html() == t1) this.html(t2);
+        else                   this.html(t1);
+        return this;
+      };
+      
+      $(function(){
+        
+        $('a.read-more').on('click', function(){
+          $('.content-wrap, .content-wrap .gradient').toggleClass('active');
+          $(this).toggleHtml("<i class=\"fa fa-minus\"></i> {{ 'Read less' | t }}", "<i class=\"fa fa-plus\"></i> {{ 'Read more' | t }}");
+        }); 
+        
+        $('#filter_form input, #filter_form select, #filter_form_side input, #filter_form_side select, #filter_form_bottom input, #filter_form_bottom select').change(function(){
+          $(this).closest('form').submit();
+        });
+        
+      });
+    </script>

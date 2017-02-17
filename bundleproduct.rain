@@ -1,0 +1,76 @@
+<div class="row productbundle">
+  <form id="bundle_configure_form_{{ bundle.id }}">
+   <input name="main_product_variant" value="{{ product.vid }}" type="hidden">
+  <div class="col-sm-9">
+    <div class="bundle-wrap">
+      <div class="main-product"><img src="{{ product.image | url_image('300x300x2', product.fulltitle) }}" alt="{{ product.fulltitle }}" /></div>
+      <div class="plus">+</div>
+      <div class="sub-products">
+        <div class="row bundle-row">
+        {% for bundleProduct in bundle.products %}  
+          <div class="col-xs-12 col-sm-4 col-md-4 product-wrap">
+            <div class="product">
+              <div class="bundle-info">
+              <div class="image-wrap"><img src="{{ bundleProduct.image | url_image('200x200x2', product.fulltitle) }}" alt="{{ product.fulltitle }}" /></div>
+              <div class="title">
+                <a href="{{ bundleProduct.url | url }}" title="{{ bundleProduct.fulltitle }}">{{ bundleProduct.title }}</a>
+              </div>
+              </div>
+              <div class="bundle-option{% if theme.round_corners %} round-corners{% endif %}">
+              {{ bundleProduct | html_bundle_item_configure(product, bundle) | raw }}
+            </div>
+              
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="col-sm-3">
+    
+    <div class="info">
+      <h3>{{ bundle.title }}</h3>
+      <div class="discount">
+        {% if bundle.percentage %} 
+        {{ bundle.percentage | percentage }} {{ 'Discount' | t }}
+        {% endif %}
+      </div>
+      
+      <div class="price">
+        {% if bundle.price.price_old != bundle.price.price %} 
+        <div class="old-price">
+          {% if theme.show_currencies %}
+          {{ bundle.price.price_old | money }}
+          {% else %}
+          {{ bundle.price.price_old | money_without_currency }}
+          {% endif %}
+          {% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %} </div>
+        {% endif %}
+        <div class="new-price">
+          {% if theme.show_currencies %}
+          {{ bundle.price.price | money }}
+          {% else %}
+          {{ bundle.price.price | money_without_currency }}
+          {% endif %}
+          {% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %} </div>
+        <div class="inc-tax">({% if theme.show_currencies %}{{ bundle.price.price_incl | money }}{% else %}{{ bundle.price.price_incl | money_without_currency }}{% endif %})</div>
+      </div>
+        
+      <div class="cart">
+        <input type="hidden" name="quantity" value="1">
+        {#{{ bundleProduct | html_bundle_item_configure(product, bundle) | raw }}#}
+        {% if bundle.stock.available %}  
+        <a href="javascript:;" class="btn add-bundle-btn{% if theme.round_corners %} round-corners{% endif %}" onclick="javascript: add_product_bundle('{{ bundle.id }}'); return false;">{{ 'Add to cart' | t }}</a>
+        {% else %}
+        <span class="out-of-stock">{{ 'Out of stock' | t }}</span>
+        {% endif %}
+      </div>
+      
+    </div>
+    
+  </div>
+</form>
+</div>

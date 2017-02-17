@@ -31,7 +31,7 @@
         <h1>{{ product.title }}</h1>
         <div class="description body-font-size">{{ product.description }}</div>
         <div class="code-price">
-          
+                  
         {% if not page.account %}
           <div class="price">
             <a style="color: #ff9f00;" href="{{ 'account' | url }}">{{ 'PriceLogin' | t }}</a>

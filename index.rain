@@ -1,0 +1,482 @@
+{% for product in popular %}
+{% set producttype = 'popupar' %}
+{% include 'snippets/quickview.rain' %}
+{% endfor %}
+{% for product in newest %}
+{% set producttype = 'newest' %}
+{% include 'snippets/quickview.rain' %}
+{% endfor %}
+{% for product in featured %}
+{% set producttype = 'featured' %}
+{% include 'snippets/quickview.rain' %}
+{% endfor %}
+
+{% if theme.activate_hero_slider %}
+</div>
+<div class="owl-hero owl-carousel owl-theme">
+  {% for slide in 1..3 %}
+  {% if attribute(theme, 'show_hero_slide_' ~ slide) %}
+  <div class="item slide-{{ slide }}{% if attribute(theme, 'hero_slide_' ~ slide ~ '_mobile') %} with-mobile{% endif %}">
+    <a href="{{ attribute(theme, 'hero_slide_' ~ slide ~ '_link') | t | url }}">
+      <div class="item-inner">
+        <div class="align">
+          <div class="text-box {{ attribute(theme, 'hero_slide_' ~ slide ~ '_text_place') }}">
+            <div class="container">
+              {% if attribute(theme, 'hero_slide_' ~ slide ~ '_title') or attribute(theme, 'hero_slide_' ~ slide ~ '_text') %}
+              <div class="text-wrap{% if attribute(theme, 'hero_slide_' ~ slide ~ '_black_box') %} black-box{% endif %} {{ attribute(theme, 'hero_slide_' ~ slide ~ '_text_align') }}">
+                <h2 class="title">{{ attribute(theme, 'hero_slide_' ~ slide ~ '_title') | t | raw }}</h2>
+                <div class="text">{{ attribute(theme, 'hero_slide_' ~ slide ~ '_text') | t | raw }}</div>
+                <div class="link{% if attribute(theme, 'hero_slide_' ~ slide ~ '_button') %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %}">{{ attribute(theme, 'hero_slide_' ~ slide ~ '_link_text') | t }}</div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+<div class="container">
+  {% endif %}
+
+<div class="row">
+  
+  {% if theme.menu_style == 'Verticaal' %}
+  <div class="col-md-3 hidden-sm hidden-xs sidebar">
+    {% include 'snippets/sidebar.rain' %}
+  </div>
+  {% endif %}
+  
+  
+  <div class="{% if theme.menu_style == 'Verticaal' %}col-md-9{% else %}col-md-12{% endif %}">
+    <div class="row banners">
+      
+      <div class="{% if theme.show_banner_2 %}col-md-8{% else %}col-md-12{% endif %}">
+        <div class="row">
+          
+          {% if theme.show_banner_1 %}
+          <div class="col-md-12 banner">
+            <div class="owl-headlines owl-carousel owl-theme">
+              
+              <div class="item">
+                <a href="{{ theme.banner_1_link | t | url }}">
+                  <div class="banner-inner banner-1 {% if theme.banner_1_mobile %} with-mobile{% endif %}{% if theme.round_corners %} round-corners{% endif %}">
+                    <div class="align">
+                      <div class="text-box {{ theme.banner_1_tekst_plaats }}">
+                        {% if theme.banner_1_title or theme.banner_1_tekst %}
+                        <div class="text-wrap{% if theme.banner_1_black_box %} black-box{% endif %} {{ theme.banner_1_text_align }}">
+                          <h2 class="title">{{ theme.banner_1_title | t | raw }}</h2>
+                          <div class="text body-font-size">{{ theme.banner_1_tekst | t | raw }}</div>
+                          <div class="link{% if theme.banner_1_button %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %} body-font-size">{{ theme.banner_1_link_tekst | t }}</div>
+                        </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              {% for headline in 1..4 %}
+              {% if attribute(theme, 'show_banner_1_slide_' ~ headline) %}
+              
+              <div class="item">
+                <a href="{{ attribute(theme, 'banner_1_slide_' ~ headline ~ '_link') | t | url }}">
+                  <div class="banner-inner banner-1-slide slide-{{ loop.index }}{% if attribute(theme, 'banner_1_slide_' ~ headline ~ '_mobile') %} with-mobile{% endif %}{% if theme.round_corners %} round-corners{% endif %}">
+                    <div class="align">
+                      <div class="text-box {{ attribute(theme, 'banner_1_slide_' ~ headline ~ '_tekst_plaats') }}">
+                        {% if attribute(theme, 'banner_1_slide_' ~ headline ~ '_title') or attribute(theme, 'banner_1_slide_' ~ headline ~ '_tekst') %}
+                        <div class="text-wrap{% if attribute(theme, 'banner_1_slide_' ~ headline ~ '_black_box') %} black-box{% endif %} {{ attribute(theme, 'banner_1_slide_' ~ headline ~ '_text_align') }}">
+                          <h2 class="title">{{ attribute(theme, 'banner_1_slide_' ~ headline ~ '_title') | t | raw }}</h2>
+                          <div class="text body-font-size">{{ attribute(theme, 'banner_1_slide_' ~ headline ~ '_tekst') | t | raw }}</div>
+                          <div class="link{% if attribute(theme, 'banner_1_slide_' ~ headline ~ '_button') %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %} body-font-size">{{ attribute(theme, 'banner_1_slide_' ~ headline ~ '_link_tekst') | t }}</div>
+                        </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if theme.show_banner_3 %}
+          <div class="{% if not theme.show_banner_4 or theme.show_banner_2 %}col-md-12{% else %}col-md-8{% endif %} banner">
+            <a href="{{ theme.banner_3_link | t | url }}">
+            <div class="banner-inner banner-3{% if theme.banner_3_mobile %} with-mobile{% endif %}{% if theme.round_corners %} round-corners{% endif %}">
+              <div class="align">
+                <div class="text-box {{ theme.banner_3_text_place }}">
+                  {% if theme.banner_3_title or theme.banner_3_tekst %}
+                  <div class="text-wrap{% if theme.banner_3_black_box %} black-box{% endif %}">
+                    <h2 class="title">{{ theme.banner_3_title | t | raw }}</h2>
+                    <div class="text body-font-size">{{ theme.banner_3_tekst | t | raw }}</div>
+                    <div class="link{% if theme.banner_3_button %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %} body-font-size">{{ theme.banner_3_link_tekst | t }}</div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            </a>
+          </div>
+          {% endif %}
+          
+          {% if theme.show_banner_4 and not theme.show_banner_2 %}
+          <div class="col-xs-12 col-md-4 banner">
+            <a href="{{ theme.banner_4_link | t | url }}">
+            <div class="banner-inner banner-4{% if theme.banner_4_mobile %} with-mobile{% endif %}{% if theme.round_corners %} round-corners{% endif %}">
+              <div class="align">
+                {% if theme.banner_4_title or theme.banner_4_tekst %}
+                <div class="text-box">
+                  <div class="text-wrap{% if theme.banner_4_black_box %} black-box{% endif %}">
+                    <h2 class="title">{{ theme.banner_4_title | t | raw }}</h2>
+                    <div class="text body-font-size">{{ theme.banner_4_tekst | t | raw }}</div>
+                    <div class="link{% if theme.banner_4_button %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %} body-font-size">{{ theme.banner_4_link_tekst | t }}</div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>  
+            </a>
+          </div>
+          {% endif %}
+          
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="row">
+        {% if theme.show_banner_2 %}
+          <div class="col-xs-12{% if not theme.show_banner_3 and not theme.show_banner_4 %} col-sm-12{% else %} col-sm-6{% endif %} col-md-12 banner">
+            <a href="{{ theme.banner_2_link | t | url }}">
+            <div class="banner-inner banner-2{% if theme.banner_2_mobile %} with-mobile{% endif %}{% if theme.round_corners %} round-corners{% endif %}">
+              <div class="align">
+                <div class="text-box">
+                  {% if theme.banner_2_title or theme.banner_2_tekst %}
+                  <div class="text-wrap{% if theme.banner_2_black_box %} black-box{% endif %}">
+                    <h2 class="title">{{ theme.banner_2_title | t | raw }}</h2>
+                    <div class="text body-font-size">{{ theme.banner_2_tekst | t | raw }}</div>
+                    <div class="link{% if theme.banner_2_button %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %} body-font-size">{{ theme.banner_2_link_tekst | t }}</div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>  
+            </a>
+          </div>
+          {% endif %}
+          
+          
+          {% if theme.show_banner_4 and theme.show_banner_2 %}
+          <div class="col-xs-12 col-sm-6 col-md-12 banner">
+            <a href="{{ theme.banner_4_link | t | url }}">
+            <div class="banner-inner banner-4{% if theme.banner_4_mobile %} with-mobile{% endif %}{% if theme.round_corners %} round-corners{% endif %}">
+              <div class="align">
+                {% if theme.banner_4_title or theme.banner_4_tekst %}
+                <div class="text-box">
+                  <div class="text-wrap{% if theme.banner_4_black_box %} black-box{% endif %}">
+                    <h2 class="title">{{ theme.banner_4_title | t | raw }}</h2>
+                    <div class="text body-font-size">{{ theme.banner_4_tekst | t | raw }}</div>
+                    <div class="link{% if theme.banner_4_button %} button{% if theme.round_corners %} round-corners{% endif %}{% endif %} body-font-size">{{ theme.banner_4_link_tekst | t }}</div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>  
+            </a>
+          </div>
+          {% endif %}
+          
+        </div>
+      </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="home-content">
+        <div class="col-md-12">
+          <div class="row">
+            
+            {% if theme.menu_style == 'Horizontaal' and theme.toon_sidebar %}
+            <div class="col-md-3 hidden-sm hidden-xs sidebar">
+              {% include 'snippets/sidebar.rain' %}
+            </div>
+            {% endif %}
+            
+            <div class="{% if theme.menu_style == 'Horizontaal' and theme.toon_sidebar %}col-md-9{% else %}col-md-12{% endif %}">
+               
+               {#
+              {% if theme.show_usp_sidebar %}
+              <div class="usp-slider side-slider owl-carousel owl-theme visible">
+                <div class="item">
+                  {% if theme.sidebar_usp_1_url %}<a href="{{ theme.sidebar_usp_1_url | url }}">{% endif %}
+                  <i class="fa fa-check" aria-hidden="true"></i>{{ theme.sidebar_usp_1 | t | raw }}
+                  {% if theme.sidebar_usp_1_url %}</a>{% endif %}
+                </div>
+                <div class="item">
+                  {% if theme.sidebar_usp_2_url %}<a href="{{ theme.sidebar_usp_2_url | url }}">{% endif %}
+                  <i class="fa fa-check" aria-hidden="true"></i>{{ theme.sidebar_usp_2 | t | raw }}
+                  {% if theme.sidebar_usp_2_url %}</a>{% endif %}
+                </div>
+                <div class="item">
+                 {% if theme.sidebar_usp_3_url %}<a href="{{ theme.sidebar_usp_3_url | url }}">{% endif %}
+                  <i class="fa fa-check" aria-hidden="true"></i>{{ theme.sidebar_usp_3 | t | raw }}
+                  {% if theme.sidebar_usp_3_url %}</a>{% endif %}
+                </div>
+                <div class="item">
+                 {% if theme.sidebar_usp_4_url %}<a href="{{ theme.sidebar_usp_4_url | url }}">{% endif %}
+                  <i class="fa fa-check" aria-hidden="true"></i>{{ theme.sidebar_usp_4 | t | raw }}
+                  {% if theme.sidebar_usp_4_url %}</a>{% endif %}
+                </div>
+              </div>
+              {% endif %}
+              #}
+           
+              
+              <div class="home-products">
+                {% if theme.show_popular_products or theme.show_newest_products or theme.show_featured_products %}
+                <div class="tabs">
+                  {% if theme.productslider %}
+                    <div class="product-nav">
+                      <a class="prev" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                      <a class="next" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                    </div>
+                    {% endif %}                    
+                  {#<!--
+                  {% if theme.show_popular_products %}<li data-tab="1"><h2><a href="javascript:;" class="tab-link active">{{ 'Popular' | t }}</a></h2></li>{% endif %}
+                    {% if theme.show_newest_products %}<li data-tab="2"><h2><a href="javascript:;" class="tab-link">{{ 'New' | t }}</a></h2></li>{% endif %}
+                    {% if theme.show_featured_products %}<li data-tab="3"><h2><a href="javascript:;" class="tab-link">{{ 'Featured' | t }}</a></h2></li>{% endif %}
+                    -->#}
+                  {% if theme.show_product_tabs %}
+                  
+                  <ul class="tabs-list {{ theme.home_titles_text_align }}">
+                    
+                    {% set showProducts = [theme.show_popular_products, theme.show_newest_products, theme.show_featured_products] %}
+                    {% set myIndex = 1 %}
+                    {% for tab in showProducts %}
+                    {% if tab %}
+                    <li data-tab="{{ loop.index }}"><h2><a href="javascript:;" class="tab-link {% if myIndex == 1 %}active{% endif %}">{% if loop.index == 1 %}{{ 'Popular' | t }}{% elseif loop.index == 2 %}{{ 'New' | t }}{% elseif loop.index == 3 %}{{ 'Featured' | t }}{% endif %}</a></h2></li>
+                    {% set myIndex = myIndex + 1 %}
+                    {% endif %}
+                    {% endfor %}
+
+                    
+                  </ul>
+                  {% endif %}
+                  
+                  {% if theme.show_popular_products %}
+                  {% if not theme.show_product_tabs %}
+                  <ul class="tabs-list {{ theme.home_titles_text_align }}">
+                    <li data-tab="1"><h2><a href="javascript:;" class="tab-link active">{{ 'Popular' | t }}</a></h2></li>
+                    {% if theme.productslider %}
+                    <div class="product-nav">
+                      <a class="prev" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                      <a class="next" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                    </div>
+                    {% endif %}
+                  </ul>
+                  {% endif %}
+                  <div class="tab tab-1{% if not theme.show_product_tabs %} active{% endif %}">
+                    {% if theme.productslider %}
+                    <div class="productslider{% if not theme.toon_sidebar %} {{ theme.productweergave }}{% else %} {{ theme.productweergave }}-side{% endif %} products owl-carousel owl-theme">
+                      {% for product in popular %}
+                      {% set producttype = 'popupar' %}
+                      <div class="item">
+                        {% include 'snippets/products.rain' %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="products row">
+                      {% for product in popular %}
+                      {% set producttype = 'popupar' %}
+                      {% include 'snippets/products.rain' %}
+                      {% endfor %} 
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if theme.show_newest_products %}
+                   {% if not theme.show_product_tabs %}
+                  <ul class="tabs-list {{ theme.home_titles_text_align }}">
+                    <li data-tab="2"><h2><a href="javascript:;" class="tab-link active">{{ 'New' | t }}</a></h2></li>
+                    {% if theme.productslider %}
+                    <div class="product-nav">
+                      <a class="prev" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                      <a class="next" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                    </div>
+                    {% endif %}
+                  </ul>
+                  {% endif %}
+                  <div class="tab tab-2{% if not theme.show_product_tabs %} active{% endif %}">  
+                    {% if theme.productslider %}
+                    <div class="productslider{% if not theme.toon_sidebar %} {{ theme.productweergave }}{% else %} {{ theme.productweergave }}-side{% endif %} products owl-carousel owl-theme">
+                      {% for product in newest %}
+                      {% set producttype = 'newest' %}
+                      <div class="item">
+                        {% include 'snippets/products.rain' %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                    {% else %}  
+                    <div class="products row">
+                      {% for product in newest %}
+                      {% set producttype = 'newest' %}
+                      {% include 'snippets/products.rain' %}
+                      {% endfor %} 
+                    </div>
+                    {% endif %}  
+                  </div>
+                  {% endif %}
+                  
+                  {% if theme.show_featured_products %}
+                   {% if not theme.show_product_tabs %}
+                  <ul class="tabs-list {{ theme.home_titles_text_align }}">
+                    <li data-tab="3"><h2><a href="javascript:;" class="tab-link active">{{ 'Featured' | t }}</a></h2></li>
+                    {% if theme.productslider %}
+                    <div class="product-nav">
+                      <a class="prev" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                      <a class="next" href="javascript:;">{% include 'snippets/play-icon.rain' %}</a>
+                    </div>
+                    {% endif %}
+                  </ul>
+                  {% endif %}
+                  <div class="tab tab-3{% if not theme.show_product_tabs %} active{% endif %}">
+                    {% if theme.productslider %}
+                    <div class="productslider{% if not theme.toon_sidebar %} {{ theme.productweergave }}{% else %} {{ theme.productweergave }}-side{% endif %} products owl-carousel owl-theme">
+                      {% for product in featured %}
+                      {% set producttype = 'featured' %}
+                      <div class="item">
+                        {% include 'snippets/products.rain' %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                    {% else %}      
+                    <div class="products row">
+                      {% for product in featured %}
+                      {% set producttype = 'featured' %}
+                      {% include 'snippets/products.rain' %}
+                      {% endfor %} 
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+              
+                {% if shop.settings.legal.mode == 'strict' %}
+                <div class="{% if collection.products %}strict-shipping{% endif %} text-right">
+                  <small class="shipping-cost collection">
+                    * 
+                    {% if shop.b2b %}
+                    {{ 'Excl. VAT' | t }}
+                    {% else %}
+                    {{ 'Incl. VAT' | t }}
+                    {% endif %} 
+                    {{ 'Excl. $1' | t('<a href="' ~ 'service/shipping-returns' | url ~ '" target="_blank">' ~ 'Shipping costs' | t ~ '</a>') | raw }}
+                  </small>
+                </div>
+                {% endif %}
+              
+                {% if categories %}
+                <div class="home-categories">
+                  <h2 class="title-featured {{ theme.home_titles_text_align }}">{{ 'Categories' | t }}</h2>
+                  <div class="categories row">
+                    {% for category in categories %}
+                    {% include 'snippets/categories.rain' %}
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% if content %}
+                <div class="home-text">
+                  <h2 class="title-featured {{ theme.home_titles_text_align }}">{{ 'About us' | t }}</h2>
+                  <div class="home-text-content body-font-size">
+                    {{ content | raw }}
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% if shop.brands and theme.show_brands_home %}
+                <div class="home-brands">
+                  <h2 class="title-featured {{ theme.home_titles_text_align }}">{{ 'Brands' | t }}</h2>
+                  <div class="brands-slider {% if not theme.toon_sidebar %}small{% endif %} owl-carousel owl-theme">
+                    {% for brand in shop.brands %}
+                    <div class="item"><a href="{{ brand.url | url }}"><img src="{{ brand.image | url_image('200x150x2') }}" alt="{{ brand.title }}"></a></div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% if shop.blogs and theme.show_blog_home %}
+                <div class="home-blog">
+                  <h2 class="title-featured {{ theme.home_titles_text_align }}">{{ 'Blog' | t }}</h2>
+                  {% for blog in shop.blogs | limit() %}
+                  <div class="articles row">
+                    {% for article in blog.articles %}
+                    <div class="{% if theme.toon_sidebar %}col-md-4{% else %}col-md-3{% endif %} article">
+                      <div class="image-wrap">
+                        <a href="{{ article.url | url }}">
+                          <div class="date-label{% if theme.round_corners %} round-corners-top-left{% endif %}">{{ article.date | date('d/m/Y') }}</div>
+                          {% if article.image %}
+                            <img src="{{ article.image | url_image('500x300x1') }}" class="img-responsive hidden-xs{% if theme.round_corners %} round-corners-top{% endif %}" alt="{{ article.title }}">
+                            <img src="{{ article.image | url_image('500x500x1') }}" class="img-responsive visible-xs" alt="{{ article.title }}">
+                          {% else %}
+                            <img src="https://placeholdit.imgix.net/~text?txtsize=47&txt=500%C3%97300&w=500&h=300" width="100%" alt="Blog article image">
+                          {% endif %}
+                        </a>
+                      </div>
+                      <div class="info{% if theme.round_corners %} round-corners-bottom{% endif %}">
+                        <a class="title" href="{{ article.url | url }}">{{ article.title }}</a>
+                        <div class="description">{{ article.summary }}</div>
+                        <a class="read-more" href="{{ article.url | url }}">{{ 'Read more' | t }}</a>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                  {% endfor %}
+				  <p class="more"><a href="{{ 'blogs/blog' | url }}">{{ 'View all' | t }}</a></p>
+                </div>				
+              </div>
+              {% endif %}
+                
+              {% if not theme.toon_sidebar and theme.show_tags_homepage and shop.tags | length > 0 %}
+              <div class="home-tags">
+              <h2 class="title-featured {{ theme.home_titles_text_align }}">{{ 'Tags' | t }}</h2>
+                <ul class="tags">
+                  {% for tag in shop.tags %}
+                  <li class="tag"><a href="{{ tag.url | url }}">{{ tag.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %}
+              
+              {% if theme.show_banner_5 %}
+              <div class="home-image">
+                {% if theme.banner_5_link %}<a href="{{ theme.banner_5_link | url }}" title="{{ shop.name }}">{% endif %}
+                <img src="{{ 'banner-5.jpg' | url_asset }}" class="img-responsive{% if theme.banner_5_mobile %} hidden-xs{% endif %}{% if theme.round_corners %} round-corners{% endif %}" alt="{{ shop.name }}">
+                {% if theme.banner_5_mobile %}<img src="{{ 'banner-5-mobile.jpg' | url_asset }}" class="img-responsive visible-xs" alt="{{ shop.name }}">{% endif %}
+                {% if theme.banner_5_link %}</a>{% endif %}
+              </div>
+              {% endif %}
+              
+              
+              </div>
+              
+            </div>
+                
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+      
+      
+    </div>
+  </div>
+          
+                  
