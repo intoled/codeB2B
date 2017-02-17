@@ -146,36 +146,45 @@
                 {% if product.sku and theme.show_sku %}<li><strong>{{ 'SKU' | t }}</strong> {{ product.sku }}</li>{% endif %}
               </ul>
             </div>
-            <div class="price">
-              
-              {% if shop.settings.legal.mode == 'strict' %}
-              {% if product.unit.price %}
-              <div class="unit-price">{{ 'Unit price' | t }}: {{ product.unit.price | money }} / {{ product.unit.unit }}</div>
-              {% endif %}
-              {% endif %}
-              
-              {% if product.price.price_old %}
-              <span class="old-price">
-                {% if theme.show_currencies %}
-                {{ product.price.price_old | money }}
-                {% else %}
-                {{ product.price.price_old | money_without_currency }}
+            
+            {% if not page.account %}
+              <div class="price">
+                <a style="color: #ff9f00;" href="{{ 'account' | url }}">{{ 'PriceLogin' | t }}</a>
+              </div>
+           
+            {% else %}
+           
+              <div class="price">
+                
+                {% if shop.settings.legal.mode == 'strict' %}
+                {% if product.unit.price %}
+                <div class="unit-price">{{ 'Unit price' | t }}: {{ product.unit.price | money }} / {{ product.unit.unit }}</div>
                 {% endif %}
-              </span>
-              {% if shop.settings.legal.mode == 'strict' %}
-              <small class="srp">{{ 'SRP' | t }}</small>
-              {% endif %}
-              {% endif %}
-              <span class="new-price">
-                {% if theme.show_currencies %}
-                {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
-                {% else %}
-                {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
                 {% endif %}
-              </span>
-              {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
-              
-            </div>
+                
+                {% if product.price.price_old %}
+                <span class="old-price">
+                  {% if theme.show_currencies %}
+                  {{ product.price.price_old | money }}
+                  {% else %}
+                  {{ product.price.price_old | money_without_currency }}
+                  {% endif %}
+                </span>
+                {% if shop.settings.legal.mode == 'strict' %}
+                <small class="srp">{{ 'SRP' | t }}</small>
+                {% endif %}
+                {% endif %}
+                <span class="new-price">
+                  {% if theme.show_currencies %}
+                  {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+                  {% else %}
+                  {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+                  {% endif %}
+                </span>
+                {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+                
+              </div>
+            {% endif %}
           </div>
           
           <div class="cart">
