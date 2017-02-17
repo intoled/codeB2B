@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ shop.language }}">
+  <head>
+    
+    {% if theme.yotpo_id %}
+      <script type="text/javascript">
+        (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/{{ theme.yotpo_id }}/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+      </script>
+    {% endif %}
+          
+    {% include 'blocks/head.rain' %}
+    <title>{{ page.title }} - {{ shop.name }}</title>
+    <meta name="description" content="{{ shop.description }}" />
+    <meta name="keywords" content="{{ shop.keywords }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta property="fb:app_id" content="966242223397117"/>
+
+
+    <link rel="shortcut icon" href="{{ 'favicon.ico' | url_asset }}" type="image/x-icon" />
+    <link href='//fonts.googleapis.com/css?family={{ theme.body_google_webfonts | url_encode }}:400,300,600,700,800,900' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family={{ theme.headings_google_webfonts | url_encode }}:400,300,600,700,800,900' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="{{ 'favicon.ico' | url_asset }}" type="image/x-icon" /> 
+    <link rel="stylesheet" href="{{ 'bootstrap.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'font-awesome-min.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'ionicons.min.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'transition.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'dropdown.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'checkbox.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'owl-carousel.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'jquery-fancybox.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'jquery-custom-scrollbar.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'style.css' | url_asset }}" />    
+    <link rel="stylesheet" href="{{ 'gui-2-0.css' | url_core }}" />
+    <link rel="stylesheet" href="{{ 'gui-responsive-2-0.css' | url_core }}" />   
+    <link rel="stylesheet" href="{{ 'custom.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'settings.css' | url_asset }}" /> 
+    <link rel="stylesheet" href="{{ 'new.css' | url_asset }}" />
+    <link rel="stylesheet" href="{{ 'wsa-css.css' | url_asset }}" />
+    <script src="{{ 'jquery-1-9-1.js' | url_core }}"></script>
+    <script src="{{ 'jquery-ui-1-10-1.js' | url_core }}"></script>
+   
+    <script type="text/javascript" src="{{ 'transition.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'dropdown.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'checkbox.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'owl-carousel.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'jquery-fancybox.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'jquery-custom-scrollbar.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'jquery-countdown-min.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'global.js' | url_asset }}"></script>
+
+    <script type="text/javascript" src="{{ 'jcarousel.js' | url_asset }}"></script>
+    <script type="text/javascript" src="{{ 'gui.js' | url_core }}"></script>
+    <script type="text/javascript" src="{{ 'gui-responsive-2-0.js' | url_core }}"></script>
+    
+    {% if theme.loyaltylion == 1 %}
+      {% include 'snippets/loyaltylion.rain' %}
+    {% endif %}
+    
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="{{ 'style-ie.css' | url_asset }}" />
+    <![endif]-->
+  </head>
+  <body id="body"> 
+    
+  {% set producttype = '' %}
+  {% include 'snippets/header.rain' %}
+    
+    <main>
+      <div class="container {% if template == 'pages/index.rain' %}home-content{% if theme.activate_hero_slider %} hero-active{% endif %}{% else %}main-content{% endif %}{% if theme.background_image_and_background_color %} container-bg{% endif %}">
+        {% include 'snippets/messages.rain' %}
+        {% include template %}
+      </div>
+    </main>
+      
+    {% include 'snippets/footer.rain' %}
+                                  
+    {% include 'blocks/body.rain' %}
+    <input type="hidden" id="shopb2b" value="{{ shop.b2b }}" />
+    {#<!--
+    {% if shop.links.powered_by %}
+    Powered by
+    {% for link in shop.links.powered_by %}
+    <a href="{{ link.url | url }}" title="{{ link.title }}"{% if link.new_window %} target="_blank"{% endif %}>{{ link.title }}</a>
+    {% if not loop.last %} - {% endif %}
+    {% endfor %}
+    {% endif %}
+    
+    -->#}
+</body>
+
+</html>
