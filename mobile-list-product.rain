@@ -1,0 +1,125 @@
+<div class="col-xs-12 list-product-wrap product_{{ product.id }} visible-xs" data-product-url="{{ product.url | url }}" data-cart-url="{{ 'cart/add/' | url }}">
+  <div class="list-product {% if loop.index is even %}even{% endif %}">
+    
+    <div class="image">
+      <a href="{{ product.url | url }}" title="{{ product.fulltitle }}" class="title">
+        {% if product.image %}
+        {% if theme.fill_image %}
+        <img src="{{ product.image | url_image('500x500x1', product.fulltitle) }}" width="100%" alt="{{ product.fulltitle }}" title="{{ product.fulltitle }}" />
+        {% else %}
+        <img src="{{ product.image | url_image('500x500x2', product.fulltitle) }}" width="100%" alt="{{ product.fulltitle }}" title="{{ product.fulltitle }}" />
+        {% endif %}
+        {% else %}
+        <img src="{{ 'productoverzicht-icon.png' | url_asset }}" width="100%" alt="{{ product.title }}" title="{{ product.title }}"/>
+        {% endif %}
+      {% if product.price.price_old %}
+      <div class="productlabel sale">
+        Sale
+      </div>
+      {% endif %}
+      </a>
+    </div>
+    
+
+      
+    <div class="info">
+      <a href="{{ product.url | url }}" title="{{ product.fulltitle }}" class="title">
+        {% if theme.show_fulltitle and product.fulltitle %} {{ product.fulltitle }} {% else %}
+        {{ product.title }} {% endif %}
+      </a>
+      <div class="description body-font-size">{{ product.description | limit(100) }}{% if product.description | length > 100 %}...{% endif %}</div>
+      
+      <div class="order visible-xs">
+        <div class="price">      
+          {% if product.price.price_old %}
+          <span class="old-price">
+            {% if theme.show_currencies %}
+            {{ product.price.price_old | money }}
+            {% else %}
+            {{ product.price.price_old | money_without_currency }}
+            {% endif %}
+          </span>
+          {% if shop.settings.legal.mode == 'strict' %}
+          <small class="srp">{{ 'SRP' | t }}</small>
+          {% endif %}
+          {% endif %}
+          <span class="new-price">
+            {% if theme.show_currencies %}
+            {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+            {% else %}
+            {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+            {% endif %}
+          </span>
+          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+        </div>
+        <div class="cart">
+          <form action="{{ ('cart/add/' ~ product.vid) | url }}" data-action="{{ ('cart/add/' ~ product.vid) | url }}" id="product_configure_form_{{ product.id }}" method="post" class="firstform-mobile">
+            <div class="change">
+              <a href="javascript:;" class="down change-q" data-way="down">-</a>
+              <input type="text" name="quantity" value="{% if theme.one_button_to_add_all %}0{% else %}1{% endif %}" />
+              <a href="javascript:;" class="up change-q" data-way="up">+</a>
+            </div>
+            <a href="javascript:;" class="btn submit-form" title="{{ 'Add to cart' | t }}">
+              <span class="cart-icon"><i class="ion ion-ios-cart"></i></span>
+              <span class="plus-icon"><i class="fa fa-plus" aria-hidden="true"></i></span>
+            </a>
+          </form>
+        </div>
+      </div>
+      
+      {% if theme.show_variants_in_list_view_mode %}
+      <div class="variants-btn visible-xs"><a class="open-variants" href="javascript:;">{{ 'Variants' | t }}</a></div>
+      {% endif %}
+    </div>
+    
+      {#<div class="variants-btn hidden-xs"><a class="open-variants" href="javascript:;">{{ 'Variants' | t }}</a></div>#}
+      
+      <div class="order hidden-xs">
+        <div class="price">      
+          {% if product.price.price_old %}
+          <span class="old-price">
+            {% if theme.show_currencies %}
+            {{ product.price.price_old | money }}
+            {% else %}
+            {{ product.price.price_old | money_without_currency }}
+            {% endif %}
+          </span>
+          {% if shop.settings.legal.mode == 'strict' %}
+          <small class="srp">{{ 'SRP' | t }}</small>
+          {% endif %}
+          {% endif %}
+          <span class="new-price">
+            {% if theme.show_currencies %}
+            {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+            {% else %}
+            {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+            {% endif %}
+          </span>
+          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+        </div>
+        <div class="cart">
+          {% if theme.show_variants_in_list_view_mode %}<a class="open-variants" href="javascript:;">{{ 'Variants' | t }}</a>{% endif %}
+          <form action="{{ ('cart/add/' ~ product.vid) | url }}" data-action="{{ ('cart/add/' ~ product.vid) | url }}" id="product_configure_form_{{ product.id }}" method="post" class="firstform-desktop">
+            <div class="change">
+              <a href="javascript:;" class="down change-q" data-way="down">-</a>
+              <input type="text" name="quantity" value="{% if theme.one_button_to_add_all %}0{% else %}1{% endif %}" />
+              <a href="javascript:;" class="up change-q" data-way="up">+</a>
+            </div>
+            <a href="javascript:;" class="btn submit-form" title="{{ 'Add to cart' | t }}">
+              <span class="cart-icon"><i class="ion ion-ios-cart"></i></span>
+              <span class="plus-icon"><i class="fa fa-plus" aria-hidden="true"></i></span>
+            </a>
+          </form>
+        </div>
+      </div>
+
+      
+  </div>
+  
+  <div class="variants" data-input-value="{% if theme.one_button_to_add_all %}0{% else %}1{% endif %}">
+    {#
+  <div class="variant"><span class="title">{{ product.variant }}</span><span class="price hidden-xs">{{ product.price.price_excl | money }} <span class="price-incl">({{ product.price.price_incl | money }} Incl. btw)</span></span><form action="{{ ('cart/add/' ~ product.vid) | url }}" method="post"><div class="change"><a href="javascript:;" class="down change-q" data-way="down">-</a><input type="text" name="quantity" value="1" /><a href="javascript:;" class="up change-q" data-way="up">+</a></div><a href="javascript:;" class="btn submit-form special"><span class="cart-icon"><i class="ion ion-ios-cart"></i></span><span class="plus-icon"><i class="fa fa-plus" aria-hidden="true"></i></span></a></form></div>
+    #}
+  </div>
+  
+</div>
