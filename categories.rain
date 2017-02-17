@@ -1,0 +1,35 @@
+{% if template != 'pages/brands.rain' %}
+<div class="category col-xs-6 col-sm-4 {% if theme.toon_sidebar or template != 'pages/index.rain' %}col-md-4{% else %}col-md-3{% endif %}">
+  <div class="cat-inner">
+    <a href="{{ category.url | url }}">
+      {% if category.image %}
+        <img src="{{ category.image | url_image('500x500x1', category.title) }}" class="w100{% if theme.round_corners %} round-corners{% endif %}" alt="{{ category.title }}" title="{{ category.title }}" />
+      {% else %}
+      <img src="{{ 'cat-icon.png' | url_asset }}" width="100%" alt="{{ category.title }}" title="{{ category.title }}"/>
+      {% endif %}
+      <div class="cat-title {{ theme.homepage_category_title_color }}">{{ category.title }}{% if theme.show_products_in_category %} ({{ category.count }}){% endif %}</div>
+    </a>
+  </div>
+</div>
+{% else %}
+
+<div class="brand col-xs-6 col-sm-3 {% if loop.index is divisibleby(4) %}last-md{% endif %}{% if loop.index is divisibleby(2) %} last-xs{% endif %}">
+  <div class="brand-wrap">
+    <a href="{{ category.url | url }}">
+      <img src="{{ category.image | url_image('500x300x2', category.title) }}" class="w100" alt="{{ category.title }}" title="{{ category.title }}" />
+      <div class="brand-title">{{ category.title }}</div>
+    </a>
+  </div>
+</div>
+{% if loop.index is divisibleby(4) %}
+<div class="col-xs-12 hidden-xs">
+  <hr></hr>
+</div>
+{% endif %}
+{% if loop.index is divisibleby(2) %}
+<div class="col-xs-12 visible-xs">
+  <hr></hr>
+</div>
+{% endif %}
+
+{% endif %}
