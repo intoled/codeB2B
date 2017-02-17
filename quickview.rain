@@ -1,0 +1,81 @@
+{% if theme.quickview %}
+<div id="{{ producttype }}product-popup-{{ product.id }}" class="product-popup">
+  <div class="popup-container">
+    
+    <a class="close-popup" href="javascript:;"><i class="fa fa-times" aria-hidden="true"></i></a>
+    
+    <div class="col-md-5">
+    
+      <div class="product-image-wrap">
+        <div class="popup-slider {{ product.id }} owl-carousel">
+          {#
+          <div class="item">
+            <img src="{{ product.image | url_image('900x900x2') }}">
+          </div>
+          #}
+        </div>
+        
+        <div class="thumbs">
+          <div class="thumb-prev thumb-nav">{% include 'snippets/play-icon.rain' %}</div>
+          <div class="popup-thumbs {{ product.id }} owl-carousel"></div>
+          <div class="thumb-next thumb-nav">{% include 'snippets/play-icon.rain' %}</div>
+        </div>
+        
+      </div>
+    
+    </div>
+    
+    <div class="col-md-7">
+      <div class="product-info">
+        
+        <h1>{{ product.title }}</h1>
+        <div class="description body-font-size">{{ product.description }}</div>
+        <div class="code-price">
+          <div class="price">
+            {% if product.price.price_old %}
+            <span class="old-price">
+              {% if theme.show_currencies %}
+              {{ product.price.price_old | money }}
+              {% else %}
+              {{ product.price.price_old | money_without_currency }}
+              {% endif %}
+            </span>
+            {% if shop.settings.legal.mode == 'strict' %}
+            <small class="srp">{{ 'SRP' | t }}</small>
+            {% endif %}
+            {% endif %}
+            <span class="new-price">
+              {% if theme.show_currencies %}
+              {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+              {% else %}
+              {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+              {% endif %}
+            </span>
+            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+          </div>
+        </div>
+        
+        <div class="cart">
+          <form action="{{ ('cart/add/' ~ product.vid) | url }}" id="{{ producttype }}popup_form_{{ product.id }}" method="post"> 
+            
+            <div class="product-option">
+              <select class="variants">
+                <option value="" disabled="disabled" selected="selected">{{ 'Make a choice' | t }}</option>
+              </select>
+            </div>
+            
+            <div class="change">
+              <a href="javascript:;" data-way="down" class="down change-q">-</a>
+              <input {# id="product-q" #} type="text" name="quantity" value="1" />
+              <a href="javascript:;" data-way="up" class="up change-q">+</a>
+            </div>
+            <a href="javascript:;" onclick="$(this).closest('form').submit();" class="btn" title="{{ 'Add to cart' | t }}"><i class="ion ion-ios-cart"></i>{{ 'Add to cart' | t }}</a>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+{% endif %}
