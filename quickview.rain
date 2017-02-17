@@ -31,6 +31,13 @@
         <h1>{{ product.title }}</h1>
         <div class="description body-font-size">{{ product.description }}</div>
         <div class="code-price">
+                  
+        {% if not page.account %}
+          <div class="price">
+            <a style="color: #ff9f00;" href="{{ 'account' | url }}">{{ 'PriceLogin' | t }}</a>
+          </div>
+        {% else %}
+        
           <div class="price">
             {% if product.price.price_old %}
             <span class="old-price">
@@ -53,6 +60,8 @@
             </span>
             {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
           </div>
+        {% endif %}
+        
         </div>
         
         <div class="cart">

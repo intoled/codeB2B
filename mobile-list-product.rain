@@ -30,28 +30,39 @@
       <div class="description body-font-size">{{ product.description | limit(100) }}{% if product.description | length > 100 %}...{% endif %}</div>
       
       <div class="order visible-xs">
-        <div class="price">      
-          {% if product.price.price_old %}
-          <span class="old-price">
-            {% if theme.show_currencies %}
-            {{ product.price.price_old | money }}
-            {% else %}
-            {{ product.price.price_old | money_without_currency }}
+
+        
+        {% if not page.account %}
+          <div class="price">
+            <a style="color: #ff9f00;" href="{{ 'account' | url }}">{{ 'PriceLogin' | t }}</a>
+          </div>
+        {% else %}
+        
+          <div class="price">      
+            {% if product.price.price_old %}
+            <span class="old-price">
+              {% if theme.show_currencies %}
+              {{ product.price.price_old | money }}
+              {% else %}
+              {{ product.price.price_old | money_without_currency }}
+              {% endif %}
+            </span>
+            {% if shop.settings.legal.mode == 'strict' %}
+            <small class="srp">{{ 'SRP' | t }}</small>
             {% endif %}
-          </span>
-          {% if shop.settings.legal.mode == 'strict' %}
-          <small class="srp">{{ 'SRP' | t }}</small>
-          {% endif %}
-          {% endif %}
-          <span class="new-price">
-            {% if theme.show_currencies %}
-            {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
-            {% else %}
-            {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
             {% endif %}
-          </span>
-          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
-        </div>
+            <span class="new-price">
+              {% if theme.show_currencies %}
+              {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+              {% else %}
+              {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+              {% endif %}
+            </span>
+            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+          </div>
+          
+        {% endif %}
+        
         <div class="cart">
           <form action="{{ ('cart/add/' ~ product.vid) | url }}" data-action="{{ ('cart/add/' ~ product.vid) | url }}" id="product_configure_form_{{ product.id }}" method="post" class="firstform-mobile">
             <div class="change">
@@ -75,28 +86,37 @@
       {#<div class="variants-btn hidden-xs"><a class="open-variants" href="javascript:;">{{ 'Variants' | t }}</a></div>#}
       
       <div class="order hidden-xs">
-        <div class="price">      
-          {% if product.price.price_old %}
-          <span class="old-price">
-            {% if theme.show_currencies %}
-            {{ product.price.price_old | money }}
-            {% else %}
-            {{ product.price.price_old | money_without_currency }}
+      
+        {% if not page.account %}
+          <div class="price">
+            <a style="color: #ff9f00;" href="{{ 'account' | url }}">{{ 'PriceLogin' | t }}</a>
+          </div>
+        {% else %}
+        
+          <div class="price">      
+            {% if product.price.price_old %}
+            <span class="old-price">
+              {% if theme.show_currencies %}
+              {{ product.price.price_old | money }}
+              {% else %}
+              {{ product.price.price_old | money_without_currency }}
+              {% endif %}
+            </span>
+            {% if shop.settings.legal.mode == 'strict' %}
+            <small class="srp">{{ 'SRP' | t }}</small>
             {% endif %}
-          </span>
-          {% if shop.settings.legal.mode == 'strict' %}
-          <small class="srp">{{ 'SRP' | t }}</small>
-          {% endif %}
-          {% endif %}
-          <span class="new-price">
-            {% if theme.show_currencies %}
-            {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
-            {% else %}
-            {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
             {% endif %}
-          </span>
-          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
-        </div>
+            <span class="new-price">
+              {% if theme.show_currencies %}
+              {{ product.price.price | money }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+              {% else %}
+              {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
+              {% endif %}
+            </span>
+            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+          </div>
+        {% endif %}
+        
         <div class="cart">
           {% if theme.show_variants_in_list_view_mode %}<a class="open-variants" href="javascript:;">{{ 'Variants' | t }}</a>{% endif %}
           <form action="{{ ('cart/add/' ~ product.vid) | url }}" data-action="{{ ('cart/add/' ~ product.vid) | url }}" id="product_configure_form_{{ product.id }}" method="post" class="firstform-desktop">
