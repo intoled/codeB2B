@@ -64,7 +64,7 @@
               {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
               {% endif %}
             </span>
-            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
           </div>
         {% endif %}
         
@@ -118,7 +118,7 @@
               {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
               {% endif %}
             </span>
-            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
           </div>
           
         {% endif %}
@@ -145,7 +145,7 @@
   
   <div class="variants" data-input-value="{% if theme.one_button_to_add_all %}0{% else %}1{% endif %}">
     {#
-  <div class="variant"><span class="title">{{ product.variant }}</span><span class="price hidden-xs">{{ product.price.price_excl | money }} <span class="price-incl">({{ product.price.price_incl | money }} Incl. btw)</span></span><form action="{{ ('cart/add/' ~ product.vid) | url }}" method="post"><div class="change"><a href="javascript:;" class="down change-q" data-way="down">-</a><input type="text" name="quantity" value="1" /><a href="javascript:;" class="up change-q" data-way="up">+</a></div><a href="javascript:;" class="btn submit-form special"><span class="cart-icon"><i class="ion ion-ios-cart"></i></span><span class="plus-icon"><i class="fa fa-plus" aria-hidden="true"></i></span></a></form></div>
+  <div class="variant"><span class="title">{{ product.variant }}</span><span class="price hidden-xs">{{ product.price.price_excl | money }} <span class="price-incl">({{ product.price.price_incl | money }} {{ 'Incl. VAT' | t }})</span></span><form action="{{ ('cart/add/' ~ product.vid) | url }}" method="post"><div class="change"><a href="javascript:;" class="down change-q" data-way="down">-</a><input type="text" name="quantity" value="1" /><a href="javascript:;" class="up change-q" data-way="up">+</a></div><a href="javascript:;" class="btn submit-form special"><span class="cart-icon"><i class="ion ion-ios-cart"></i></span><span class="plus-icon"><i class="fa fa-plus" aria-hidden="true"></i></span></a></form></div>
     #}
   </div>
   
@@ -239,7 +239,7 @@
             {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
           {% endif %}
         </span>
-        {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+        {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
       </div>
     {% endif %}
    
@@ -337,7 +337,7 @@
               {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
             {% endif %}
           </span>
-          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} Incl. btw)</div></a>{% endif %}
+          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
           
           <div class="unit-price">{% if product.unit %}{{ 'Unit price' | t }}: {{ product.unit.price | money }} / {{ product.unit.unit }}{% endif %}</div>
         
