@@ -64,7 +64,17 @@
               {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
               {% endif %}
             </span>
-            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
+            {% if shop.b2b %}
+              {#<a href="{{ 'service/shipping-returns' | url }}">#}
+                <div class="inc-tax">
+                  ({% if theme.show_currencies %}
+                    {{ product.price.price_incl | money }}
+                  {% else %}
+                    {{ product.price.price_incl | money_without_currency }}
+                  {% endif %} {{ 'Incl. VAT' | t }})
+                </div>
+              {#</a>#}
+            {% endif %}
           </div>
         {% endif %}
         
@@ -118,7 +128,18 @@
               {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
               {% endif %}
             </span>
-            {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
+            {% if shop.b2b %}
+              {#<a href="{{ 'service/shipping-returns' | url }}">#}
+                <div class="inc-tax">
+                  ({% if theme.show_currencies %}
+                    {{ product.price.price_incl | money }}
+                  {% else %}
+                    {{ product.price.price_incl | money_without_currency }}
+                  {% endif %} 
+                    {{ 'Incl. VAT' | t }})
+                </div>
+              {#</a>#}
+            {% endif %}
           </div>
           
         {% endif %}
@@ -239,7 +260,18 @@
             {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
           {% endif %}
         </span>
-        {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
+        {% if shop.b2b %}
+          {#<a href="{{ 'service/shipping-returns' | url }}">#}
+            <div class="inc-tax">
+              ({% if theme.show_currencies %}
+                {{ product.price.price_incl | money }}
+              {% else %}
+                {{ product.price.price_incl | money_without_currency }}
+              {% endif %} 
+              {{ 'Incl. VAT' | t }})
+            </div>
+          {#</a>#}
+        {% endif %}
       </div>
     {% endif %}
    
@@ -337,7 +369,17 @@
               {{ product.price.price | money_without_currency }}{% if shop.settings.legal.mode == 'strict' %} <small>*</small>{% endif %}
             {% endif %}
           </span>
-          {% if shop.b2b %}<a href="{{ 'service/shipping-returns' | url }}"><div class="inc-tax">({% if theme.show_currencies %}{{ product.price.price_incl | money }}{% else %}{{ product.price.price_incl | money_without_currency }}{% endif %} {{ 'Incl. VAT' | t }})</div></a>{% endif %}
+          {% if shop.b2b %}
+            {#<a href="{{ 'service/shipping-returns' | url }}">#}
+              <div class="inc-tax">
+                ({% if theme.show_currencies %}
+                  {{ product.price.price_incl | money }}
+                {% else %}
+                  {{ product.price.price_incl | money_without_currency }}
+                {% endif %} {{ 'Incl. VAT' | t }})
+              </div>
+            {#</a>#}
+          {% endif %}
           
           <div class="unit-price">{% if product.unit %}{{ 'Unit price' | t }}: {{ product.unit.price | money }} / {{ product.unit.unit }}{% endif %}</div>
         
