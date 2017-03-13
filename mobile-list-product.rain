@@ -126,7 +126,7 @@
               {#<a href="{{ 'service/shipping-returns' | url }}">#}
                 <div class="inc-tax">
                   ({% if theme.show_currencies %}
-                    {{ product.price.price_incl | money }
+                    {{ product.price.price_incl | money }}
                   {% else %}
                     {{ product.price.price_incl | money_without_currency }}
                   {% endif %} {{'Incl. VAT' | t }})
