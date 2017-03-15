@@ -80,7 +80,7 @@
              <li class="dropdown hidden-xs hidden-sm">{{ shop.language2.code | upper }}<i class="fa fa-caret-down" aria-hidden="true"></i>
                <ul>
                  {% for language in shop.languages %}
-                   <li><a href="{{ language.url | url }}">{{ language.code | upper }}</a></li>
+                   <li><a href="{{ language.url | url }}">{{ language.title | upper }}</a></li>
                  {% endfor %}
                </ul>
              </li>
@@ -89,7 +89,7 @@
              <li class="dropdown hidden-xs hidden-sm">{{ shop.currency2.symbol }}<i class="fa fa-caret-down" aria-hidden="true"></i>
                <ul>
                  {% for currency in shop.currencies %}
-                   <li><a href="{{ currency.url | url }}">{{ currency.symbol | upper }}</a></li>
+                   <li><a href="{{ currency.url | url }}">{{ currency.title | upper }}</a></li>
                  {% endfor %}
                </ul>
              </li>
